@@ -1,0 +1,10 @@
+[flake8]
+exclude = .git,__pycache__
+ignore =
+  # Indentation is not a multiple of four
+  E111,E114
+  # Continuation line under-indented for hanging indent
+  E121,E125,E131
+  # Line break after binary operator
+  W504
+max-line-length=120
