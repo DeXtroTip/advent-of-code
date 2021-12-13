@@ -21,6 +21,6 @@ DAY=`printf %02d $2`
 
 touch $SCRIPT_DIR/$YEAR/inputs/$DAY.txt
 touch $SCRIPT_DIR/$YEAR/inputs/$DAY.example.txt
-cp $SCRIPT_DIR/$YEAR/original_solutions/day_template.py $SCRIPT_DIR/$YEAR/original_solutions/day$DAY.py
+cp $SCRIPT_DIR/day_template.py $SCRIPT_DIR/$YEAR/original_solutions/day$DAY.py
 
 exit $?

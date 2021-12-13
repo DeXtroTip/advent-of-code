@@ -1,8 +1,3 @@
-__all__ = [
-  'get_ints',
-  'get_lines',
-]
-
 import re
 
 
