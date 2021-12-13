@@ -1,6 +1,5 @@
 from utils import aoc
-from utils.all import *
-from utils.helpers import *
+from utils.helpers import get_lines
 
 YEAR, DAY = 2021, 2
 
