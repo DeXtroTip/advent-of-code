@@ -6,7 +6,7 @@ from utils.helpers import get_dgrid, graph_from_dgrid
 
 YEAR, DAY = 2021, 15
 
-fin = aoc.get_input(DAY, True)
+fin = aoc.get_input(DAY)
 dg = get_dgrid(fin, cast=int)
 
 g = graph_from_dgrid(dg)
