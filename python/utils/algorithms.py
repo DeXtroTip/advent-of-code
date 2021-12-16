@@ -106,3 +106,11 @@ def set_bit(value, bit):
 
 def clear_bit(value, bit):
   return value & ~(1 << bit)
+
+
+def bin_to_int(b):
+  return int(b, 2)
+
+
+def hex_to_bin(h, fill=4):
+  return bin(int(h, 16))[2:].zfill(fill)
