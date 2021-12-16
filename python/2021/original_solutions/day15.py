@@ -36,7 +36,7 @@ finally:
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
-  g = get_matrix(fin, cast=int)
+  g = get_dgrid(fin, cast=int)
 except:
   pass
 

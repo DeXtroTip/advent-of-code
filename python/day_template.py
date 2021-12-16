@@ -16,6 +16,7 @@ def parse_line(line):
   pattern = '{}-{}'
   # tokens = parse.search(parse_pattern, line).fixed
 
+  # return tokens
   return line
 
 
@@ -27,7 +28,7 @@ except:
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
-  lines = get_lines(fin, parse_pattern=None)
+  lines = get_lines(fin, strip=True, parse_pattern=None)
 except:
   lines = None
 finally:
@@ -36,8 +37,8 @@ finally:
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
-  g = get_matrix(fin)
-  g = get_matrix(fin, cast=int)
+  dg = get_dgrid(fin, cast=None, y_start_at_top=True, strip=True)
+  g = graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4)
 except:
   pass
 

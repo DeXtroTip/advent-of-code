@@ -34,8 +34,8 @@ except Exception as e:
   pass
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
-  g = get_matrix(fin)
-  g = get_matrix(fin, cast=int)
+  g = get_dgrid(fin)
+  # g = get_dgrid(fin, cast=int)
 except:
   pass
 finally:

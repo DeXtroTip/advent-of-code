@@ -1,4 +1,7 @@
 import re
+from collections import defaultdict
+
+from .algorithms import dgrid_neighbors4
 
 
 def get_ints(f):
@@ -15,9 +18,9 @@ def get_lines(f, regex=None, parse_pattern=None, strip=True):
   return [line.strip() if strip else line for line in f.readlines()]
 
 
-def get_matrix(f, cast=None, start=(0, 0), y_start_at_top=True, strip=True):
+def get_dgrid(f, cast=None, start=(0, 0), y_start_at_top=True, strip=True):
   start_x, start_y = start
-  m = {}
+  dg = {}
 
   lines = f.readlines()
   if not y_start_at_top:
@@ -29,22 +32,34 @@ def get_matrix(f, cast=None, start=(0, 0), y_start_at_top=True, strip=True):
     y = start_y + i
     for j, c in enumerate(line):
       x = start_x + j
-      m[(x, y)] = c if cast is None else cast(c)
+      dg[(x, y)] = c if cast is None else cast(c)
 
-  return m
+  return dg
 
 
-def print_matrix(matrix, default_val='.', mapping=None):
-  if not matrix:
+def graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4):
+
+  g = defaultdict(list)
+  for pos in dg:
+    for adj in neighbors(dg, pos):
+      if weighted:
+        g[pos].append((adj, dg[adj]))
+      else:
+        g[pos].append(adj)
+  return g
+
+
+def print_dgrid(dg, default_val='.', mapping=None):
+  if not dg:
     return
 
-  min_x = int(min(matrix.keys(), key=lambda p: p[0])[0])
-  max_x = int(max(matrix.keys(), key=lambda p: p[0])[0])
-  min_y = int(min(matrix.keys(), key=lambda p: p[1])[1])
-  max_y = int(max(matrix.keys(), key=lambda p: p[1])[1])
+  min_x = int(min(dg.keys(), key=lambda p: p[0])[0])
+  max_x = int(max(dg.keys(), key=lambda p: p[0])[0])
+  min_y = int(min(dg.keys(), key=lambda p: p[1])[1])
+  max_y = int(max(dg.keys(), key=lambda p: p[1])[1])
   for y in range(min_y, max_y + 1):
     line = ''
     for x in range(min_x, max_x + 1):
-      val = matrix.get((x, y), default_val)
+      val = dg.get((x, y), default_val)
       line += str(mapping.get(val, val) if mapping is not None else val)
     print(line)
