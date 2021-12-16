@@ -7,6 +7,20 @@ from utils.helpers import get_lines
 
 YEAR, DAY = 2021, 16
 
+EVAL_METHOD = {
+  0: sum,
+  1: math.prod,
+  2: min,
+  3: max,
+  5: lambda p: p[0] > p[1],
+  6: lambda p: p[0] < p[1],
+  7: lambda p: p[0] == p[1],
+}
+
+
+def packets_eval(type_id, sub_packets):
+  return EVAL_METHOD[type_id]([val for _, _, val in sub_packets])
+
 
 def process_packet(msg):
   version = bin_to_int(msg[:3])
@@ -39,24 +53,6 @@ def process_packet(msg):
         packets.append(sub_packet)
         next_bit += bits
     return (version, packets, packets_eval(type_id, packets)), next_bit
-
-
-def packets_eval(type_id, sub_packets):
-  sub_values = [val for _, _, val in sub_packets]
-  if type_id == 0:
-    return sum(sub_values)
-  elif type_id == 1:
-    return math.prod(sub_values)
-  elif type_id == 2:
-    return min(sub_values)
-  elif type_id == 3:
-    return max(sub_values)
-  elif type_id == 5:
-    return int(sub_values[0] > sub_values[1])
-  elif type_id == 6:
-    return int(sub_values[0] < sub_values[1])
-  elif type_id == 7:
-    return int(sub_values[0] == sub_values[1])
 
 
 fin = aoc.get_input(DAY)
