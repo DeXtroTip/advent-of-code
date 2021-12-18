@@ -6,7 +6,9 @@ from utils.all import *
 
 YEAR, DAY = 2000, 0
 
-DEBUG = 'x' in sys.argv
+DEBUG = 'x' in sys.argv or 'i' in sys.argv
+if 'i' in sys.argv:
+  aoc.write_example(DAY)
 fin = aoc.get_input(DAY, example=DEBUG)
 
 
@@ -34,6 +36,7 @@ except:
 finally:
   if lines is not None:
     plines = [parse_line(line) for line in lines]
+    #plines = [int(n) for n in plines]
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
@@ -44,7 +47,11 @@ except:
 
 fin = aoc.get_input(DAY, example=DEBUG)
 
-###
+### input handle
+
+pp(lines)
+
+### part 1
 
 ans = 0
 
@@ -54,7 +61,7 @@ if not DEBUG:
   input("Submit part 1 ? (Ctrl-c to cancel)")
   aoc.submit_answer(ans, 1, DAY, YEAR)
 
-###
+### part 2
 
 ans = 0
 

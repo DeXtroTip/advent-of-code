@@ -2,9 +2,11 @@ __all__ = [
   'submit_answer',
   'print_answer',
   'get_input',
+  'write_example',
 ]
 
 import os
+import sys
 
 from .timer import timer
 
@@ -17,13 +19,20 @@ def submit_answer(ans, part, day=None, year=None):
 
 
 def get_input(day, example=False, fname=None, start_timer=True):
-  if fname is None:
-    fname = f'{day:02d}{".example" if example else ""}.txt'
+  fname = fname or f'{day:02d}{".example" if example else ""}.txt'
   fname = os.path.join(INPUTS_DIR, fname)
   f = open(fname, 'r')
   if start_timer:
     timer.start()
   return f
+
+
+def write_example(day, fname=None):
+  fname = fname or f'{day:02d}.example.txt'
+  fname = os.path.join(INPUTS_DIR, fname)
+  with open(fname, 'w') as f:
+    # Stop read on linux: Ctrl+D; Ctrl+D
+    f.write(sys.stdin.read())
 
 
 def print_answer(ans, part, get_timer=True):
