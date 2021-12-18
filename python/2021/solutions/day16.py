@@ -62,17 +62,12 @@ bin_message = ''.join(hex_to_bin(c) for c in lines[0])
 root_packet, _ = process_packet(bin_message)
 
 versions_total = 0
-root_value = None
 
 dq = deque((root_packet, ))
 while dq:
-  version, sub_packets, value = dq.popleft()
-
-  if root_value is None:
-    root_value = value
-
+  version, sub_packets, _ = dq.popleft()
   versions_total += version
   dq.extend(sub_packets)
 
 aoc.print_answer(versions_total, 1)
-aoc.print_answer(root_value, 2)
+aoc.print_answer(root_packet[2], 2)
