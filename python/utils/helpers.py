@@ -49,7 +49,7 @@ def graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4):
   return g
 
 
-def print_dgrid(dg, default_val='.', mapping=None):
+def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True):
   if not dg:
     return
 
@@ -57,7 +57,9 @@ def print_dgrid(dg, default_val='.', mapping=None):
   max_x = int(max(dg.keys(), key=lambda p: p[0])[0])
   min_y = int(min(dg.keys(), key=lambda p: p[1])[1])
   max_y = int(max(dg.keys(), key=lambda p: p[1])[1])
-  for y in range(min_y, max_y + 1):
+
+  yrange_step = ((min_y, max_y + 1, 1) if y_start_at_top else (max_y, min_y - 1, -1))
+  for y in range(*yrange_step):
     line = ''
     for x in range(min_x, max_x + 1):
       val = dg.get((x, y), default_val)

@@ -100,6 +100,18 @@ def element_sum(*args):
   return tuple(map(sum, zip(*args)))
 
 
+def element_prod(*args):
+  return tuple(map(math.prod, zip(*args)))
+
+
+def element_diff(p1, p2):
+  return tuple(c2 - c1 for c1, c2 in zip(p1, p2))
+
+
+def manhattan_dis(p1, p2):
+  return sum(abs(c2 - c1) for c1, c2 in zip(p1, p2))
+
+
 def set_bit(value, bit):
   return value | (1 << bit)
 

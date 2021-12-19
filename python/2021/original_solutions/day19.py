@@ -178,47 +178,47 @@ beacons = ds[0]
 
 # pp(points_dis(beacons))
 
-# while True:
-#   beacons_size = len(beacons)
-#   for d in ds:
-#     bp_dis = points_dis(beacons)
-#     for oi, ori in enumerate(orientations_gen()):
-#       nd = {ori(p) for p in d}
-#       pdis = points_dis(nd)
-#       # pp(pdis)
+while True:
+  beacons_size = len(beacons)
+  for d in ds:
+    bp_dis = points_dis(beacons)
+    for oi, ori in enumerate(orientations_gen()):
+      nd = {ori(p) for p in d}
+      pdis = points_dis(nd)
+      # pp(pdis)
 
-#       shift = None
-#       oflag = False
-#       for bp, bpd in bp_dis.items():
-#         for p, pd in pdis.items():
-#           o = 1 + len(bpd.intersection(pd))
-#           if o >= 12:
-#             oflag = True
-#             shift = tuple(c2 - c1 for c1, c2 in zip(p, bp))
-#             # print(bp, p)
-#             break
-#         if oflag:
-#           break
+      shift = None
+      oflag = False
+      for bp, bpd in bp_dis.items():
+        for p, pd in pdis.items():
+          o = 1 + len(bpd.intersection(pd))
+          if o >= 12:
+            oflag = True
+            shift = tuple(c2 - c1 for c1, c2 in zip(p, bp))
+            # print(bp, p)
+            break
+        if oflag:
+          break
 
-#       if oflag:
-#         print(shift)
-#         # print(beacons)
-#         for p in nd:
-#           np = tuple(c2 + c1 for c1, c2 in zip(p, shift))
-#           beacons.add(np)
-#         # print(beacons)
-#         break
-#   if beacons_size == len(beacons):
-#     break
+      if oflag:
+        print(shift)
+        # print(beacons)
+        for p in nd:
+          np = tuple(c2 + c1 for c1, c2 in zip(p, shift))
+          beacons.add(np)
+        # print(beacons)
+        break
+  if beacons_size == len(beacons):
+    break
 
 # print_dgrid(beacons)
 # print()
 
-# ans = len(beacons)
-# aoc.print_answer(ans, 1)
-# if not DEBUG:
-#   input("Submit part 1 ? (Ctrl-c to cancel)")
-#   aoc.submit_answer(ans, 1, DAY, YEAR)
+ans = len(beacons)
+aoc.print_answer(ans, 1)
+if not DEBUG:
+  input("Submit part 1 ? (Ctrl-c to cancel)")
+  aoc.submit_answer(ans, 1, DAY, YEAR)
 
 ### part 2
 
