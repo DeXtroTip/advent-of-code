@@ -75,7 +75,8 @@ for _ in range(2):
   # print(dg)
   for y in range(min_y, max_y + 1):
     for x in range(min_x, max_x + 1):
-      v8x = list(dgrid_neighbors8_values(dg, (x, y), out))
+      v8x = list(dgrid_neighbors8_values(dg, (x, y), default=out))
+      v8x.insert(4, dg[(x, y)] if (x, y) in dg else out)
       v8x = [1 if x == '#' else 0 if x == '.' else x for x in v8x]
       v = bin_to_int(''.join((str(x) for x in v8x)))
       if iea[v] == '#':
@@ -124,7 +125,8 @@ for _ in range(50):
   # print(dg)
   for y in range(min_y, max_y + 1):
     for x in range(min_x, max_x + 1):
-      v8x = list(dgrid_neighbors8_values(dg, (x, y), out))
+      v8x = list(dgrid_neighbors8_values(dg, (x, y), default=out))
+      v8x.insert(4, dg[(x, y)] if (x, y) in dg else out)
       v8x = [1 if x == '#' else 0 if x == '.' else x for x in v8x]
       v = bin_to_int(''.join((str(x) for x in v8x)))
       if iea[v] == '#':

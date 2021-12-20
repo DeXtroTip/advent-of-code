@@ -5,37 +5,35 @@ from collections import defaultdict
 
 def dgrid_neighbors_gen(deltas):
 
-  def f(dg, coord):
+  def f(dg, coord, only_existing=False):
     for delta in (deltas):
       neighbor = element_sum(coord, delta)
-      yield neighbor
+      if not only_existing or neighbor in dg:
+        yield neighbor
 
   return f
 
 
 def dgrid_neighbors_gen_values(deltas):
 
-  def f(dg, coord, default):
-    for neighbor in dgrid_neighbors_gen(deltas)(dg, coord):
-      if neighbor in dg:
-        yield dg[neighbor]
-      else:
+  def f(dg, coord, only_existing=False, default=None):
+    for neighbor in dgrid_neighbors_gen(deltas)(dg, coord, only_existing):
+      if default is not None and neighbor not in dg:
         yield default
+      else:
+        yield dg[neighbor]
 
   return f
 
 
 dgrid_neighbors4 = dgrid_neighbors_gen(((0, 1), (1, 0), (0, -1), (-1, 0)))
 dgrid_neighbors4x = dgrid_neighbors_gen(((1, 1), (1, -1), (-1, 1), (-1, -1)))
-dgrid_neighbors8 = dgrid_neighbors_gen(((0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)))
+dgrid_neighbors8 = dgrid_neighbors_gen(((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)))
 
 dgrid_neighbors4_values = dgrid_neighbors_gen_values(((0, 1), (1, 0), (0, -1), (-1, 0)))
 dgrid_neighbors4x_values = dgrid_neighbors_gen_values(((1, 1), (1, -1), (-1, 1), (-1, -1)))
-# dgrid_neighbors8_values = dgrid_neighbors_gen_values(
-#   ((0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)))
-
 dgrid_neighbors8_values = dgrid_neighbors_gen_values(
-  ((-1, -1), (0, -1), (1, -1), (-1, 0), (0, 0), (1, 0), (-1, 1), (0, 1), (1, 1)))
+  ((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)))
 
 
 def dgrid_coord_ranges(dg):
