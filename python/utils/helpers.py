@@ -3,6 +3,8 @@ from collections import defaultdict
 
 from .algorithms import dgrid_neighbors4
 
+MAX_CACHE_SIZE = 4 * 2**20  # int = 4bytes -> 4GB
+
 
 def get_ints(f):
   return list(map(int, f.readlines()))
