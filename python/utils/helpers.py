@@ -30,7 +30,7 @@ def get_dgrid(f, cast=None, start=(0, 0), y_start_at_top=True, strip=True):
 
   for i, line in enumerate(lines):
     if strip:
-      line = line.strip()
+      line = line.rstrip()
     y = start_y + i
     for j, c in enumerate(line):
       x = start_x + j
