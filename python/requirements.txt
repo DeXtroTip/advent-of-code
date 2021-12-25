@@ -32,3 +32,4 @@ tzdata==2021.5
 tzlocal==4.1
 urllib3==1.26.7
 yapf==0.31.0
+z3-solver==4.8.14.0

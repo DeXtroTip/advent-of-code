@@ -25,3 +25,6 @@ if find_loader('parse') is not None:
 
 if find_loader('aocd') is not None:
   import aocd
+
+if find_loader('z3') is not None:
+  import z3
