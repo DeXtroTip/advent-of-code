@@ -4,7 +4,7 @@ import sys
 
 from utils.all import *
 
-YEAR, DAY = 2016, 1
+YEAR, DAY = 2016, 2
 
 DEBUG = 'x' in sys.argv or 'i' in sys.argv
 if 'i' in sys.argv:
@@ -13,12 +13,13 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 
 def parse_line(line):
-  tokens = [t.strip() for t in line.split(',')]
+  tokens = [t for t in line.split(',')]
 
   pattern = '{}-{}\n'
   # tokens = parse.search(parse_pattern, line).fixed
 
-  return tokens
+  # return tokens
+  return line
 
 
 try:
@@ -34,7 +35,7 @@ except:
   lines = None
 finally:
   if lines is not None:
-    plines = [parse_line(line) for line in lines][0]
+    plines = [parse_line(line) for line in lines]
     #plines = [int(n) for n in plines]
 
 try:
@@ -48,46 +49,41 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 ### input handle
 
-# pp(plines)
+# pp(lines)
 
 ### part 1
 
 ans = 0
 
-c = (0, 0)
-d = (0, 1)
+m = {
+  'U': (0, -1),
+  'D': (0, 1),
+  'L': (-1, 0),
+  'R': (1, 0),
+}
+cm = {
+  (0, 0): 1,
+  (1, 0): 2,
+  (2, 0): 3,
+  (0, 1): 4,
+  (1, 1): 5,
+  (2, 1): 6,
+  (0, 2): 7,
+  (1, 2): 8,
+  (2, 2): 9,
+}
 
-locs = {c}
-first_loc_twice = None
+code = []
+curr = (1, 1)
+for line in lines:
+  for c in line:
+    move = m[c]
+    curr = (min(max(curr[0] + move[0], 0), 2), min(max(curr[1] + move[1], 0), 2))
+    # print(curr)
+  code.append(str(cm[curr]))
+  # print()
 
-for p in plines:
-  v = int(p[1:])
-  if p[0] == 'R':
-    if d == (0, 1):
-      d = (1, 0)
-    elif d == (1, 0):
-      d = (0, -1)
-    elif d == (0, -1):
-      d = (-1, 0)
-    else:
-      d = (0, 1)
-  else:
-    if d == (0, 1):
-      d = (-1, 0)
-    elif d == (1, 0):
-      d = (0, 1)
-    elif d == (0, -1):
-      d = (1, 0)
-    else:
-      d = (0, -1)
-  for _ in range(v):
-    c = element_sum(c, d)
-    if c in locs and first_loc_twice is None:
-      first_loc_twice = c
-    locs.add(c)
-
-ans = manhattan_dis(c, (0, 0))
-
+ans = ''.join(code)
 aoc.print_answer(ans, 1)
 if not DEBUG:
   yn = input("Submit part 1 ? ('n' or Ctrl-c to cancel) ")
@@ -97,8 +93,35 @@ if not DEBUG:
 
 ### part 2
 
-ans = manhattan_dis(first_loc_twice, (0, 0))
+cm = {
+  (2, 0): '1',
+  (1, 1): '2',
+  (2, 1): '3',
+  (3, 1): '4',
+  (0, 2): '5',
+  (1, 2): '6',
+  (2, 2): '7',
+  (3, 2): '8',
+  (4, 2): '9',
+  (1, 3): 'A',
+  (2, 3): 'B',
+  (3, 3): 'C',
+  (2, 4): 'D',
+}
 
+code = []
+curr = (0, 2)
+for line in lines:
+  for c in line:
+    move = m[c]
+    n_curr = element_sum(curr, move)
+    if n_curr in cm:
+      curr = n_curr
+    # print(curr)
+  code.append(str(cm[curr]))
+  # print()
+
+ans = ''.join(code)
 aoc.print_answer(ans, 2)
 if not DEBUG:
   yn = input("Submit part 2 ? ('n' or Ctrl-c to cancel) ")
