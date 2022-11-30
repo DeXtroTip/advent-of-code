@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git,__pycache__
+exclude = .git,__pycache__,.venv
 ignore =
   # Indentation is not a multiple of four
   E111,E114

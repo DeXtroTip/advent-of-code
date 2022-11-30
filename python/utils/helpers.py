@@ -66,4 +66,4 @@ def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True):
     for x in range(min_x, max_x + 1):
       val = dg.get((x, y), default_val)
       line += str(mapping.get(val, val) if mapping is not None else val)
-    print(line)
+    print(line)  # noqa: T201

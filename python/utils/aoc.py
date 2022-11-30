@@ -37,4 +37,4 @@ def write_example(day, fname=None):
 
 def print_answer(ans, part, get_timer=True):
   timer_str = f"(Took: {timer.lap():05f} s)   " if get_timer else ""
-  print(f"{timer_str}Part {part}: {ans}")
+  print(f"{timer_str}Part {part}: {ans}")  # noqa: T201

@@ -45,7 +45,7 @@ class Timer:
     return elapsed_time
 
   def log(self) -> None:
-    print(self.log_text.format(self._elapsed_time))
+    print(self.log_text.format(self._elapsed_time))  # noqa: T201
 
 
 timer = Timer()

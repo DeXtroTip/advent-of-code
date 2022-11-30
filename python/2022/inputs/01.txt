@@ -1,0 +1,1 @@
+usage: aocd [day 1-25] [year 2015-2021]

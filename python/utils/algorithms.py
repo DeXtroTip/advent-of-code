@@ -38,7 +38,7 @@ dgrid_neighbors8_values = dgrid_neighbors_gen_values(
 
 def dgrid_coord_ranges(dg):
   if not dg:
-    return tuple()
+    return ()
   mins = []
   maxs = []
   for i in range(len(next(iter(dg.keys())))):
