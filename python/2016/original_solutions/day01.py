@@ -4,7 +4,7 @@ import sys
 
 from utils.all import *
 
-YEAR, DAY = 2000, 0
+YEAR, DAY = 2016, 2
 
 DEBUG = 'x' in sys.argv or 'i' in sys.argv
 if 'i' in sys.argv:
@@ -13,13 +13,12 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 
 def parse_line(line):
-  tokens = [t for t in line.split(',')]
+  tokens = [t.strip() for t in line.split(',')]
 
   pattern = '{}-{}\n'
   # tokens = parse.search(parse_pattern, line).fixed
 
-  # return tokens
-  return line
+  return tokens
 
 
 try:
@@ -35,7 +34,7 @@ except:
   lines = None
 finally:
   if lines is not None:
-    plines = [parse_line(line) for line in lines]
+    plines = [parse_line(line) for line in lines][0]
     #plines = [int(n) for n in plines]
 
 try:
@@ -49,13 +48,46 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 ### input handle
 
-pp(lines)
+# pp(plines)
 
 ### part 1
 
 ans = 0
 
-ans = ans
+c = (0, 0)
+d = (0, 1)
+
+locs = {c}
+first_loc_twice = None
+
+for p in plines:
+  v = int(p[1:])
+  if p[0] == 'R':
+    if d == (0, 1):
+      d = (1, 0)
+    elif d == (1, 0):
+      d = (0, -1)
+    elif d == (0, -1):
+      d = (-1, 0)
+    else:
+      d = (0, 1)
+  else:
+    if d == (0, 1):
+      d = (-1, 0)
+    elif d == (1, 0):
+      d = (0, 1)
+    elif d == (0, -1):
+      d = (1, 0)
+    else:
+      d = (0, -1)
+  for _ in range(v):
+    c = element_sum(c, d)
+    if c in locs and first_loc_twice is None:
+      first_loc_twice = c
+    locs.add(c)
+
+ans = manhattan_dis(c, (0, 0))
+
 aoc.print_answer(ans, 1)
 if not DEBUG:
   yn = input("Submit part 1 ? ('n' or Ctrl-c to cancel) ")
@@ -65,9 +97,8 @@ if not DEBUG:
 
 ### part 2
 
-ans = 0
+ans = manhattan_dis(first_loc_twice, (0, 0))
 
-ans = ans
 aoc.print_answer(ans, 2)
 if not DEBUG:
   yn = input("Submit part 2 ? ('n' or Ctrl-c to cancel) ")

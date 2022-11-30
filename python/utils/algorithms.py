@@ -129,3 +129,11 @@ def bin_to_int(b):
 
 def hex_to_bin(h, fill=4):
   return bin(int(h, 16))[2:].zfill(fill)
+
+
+def rotate_dir4(direction, rotation):
+  if rotation.lower() == 'r':
+    return (direction[1], direction[0] * -1)
+  if rotation.lower() == 'l':
+    return (direction[1] * -1, direction[0])
+  raise ValueError(f"Rotation {rotation!r} is not valid!")
