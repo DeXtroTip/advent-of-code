@@ -13,13 +13,15 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 
 def parse_line(line):
-  tokens = [t for t in line.split(',')]
-
-  pattern = '{}-{}'
-  # tokens = parse.search(parse_pattern, line).fixed
-
-  # return tokens
   return line
+
+  tokens = [t for t in line.split(' ')]
+  return tokens
+
+  pattern = '{} {:d}'
+  tokens = parse.search(pattern, line).fixed
+
+  return tokens
 
 
 try:
@@ -36,7 +38,7 @@ except:
 finally:
   if lines is not None:
     plines = [parse_line(line) for line in lines]
-    #plines = [int(n) for n in plines]
+    # plines = [int(n) for n in plines]
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
@@ -49,24 +51,44 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 ### input handle
 
-pp(lines)
+if DEBUG:
+  # print_dgrid(dg)
+  pp(plines)
+  pass
 
 ### part 1
 
-ans = 0
+cnt = 0
+total = 0
 
-ans = ans
+cals = []
+
+plines.append('')
+for line in plines:
+  if line == '':
+    cals.append(total)
+    total = 0
+    continue
+  n = int(line)
+  total += n
+
+ans = max(cals)
+
 aoc.print_answer(ans, 1)
 if not DEBUG:
-  input("Submit part 1 ? (Ctrl-c to cancel)")
+  yn = input("Submit part 1 ? ('n' or Ctrl-c to cancel) ")
+  if yn.lower() == 'n':
+    sys.exit(0)
   aoc.submit_answer(ans, 1, DAY, YEAR)
 
 ### part 2
 
-ans = 0
+cals.sort(reverse=True)
+ans = sum(cals[:3])
 
-ans = ans
 aoc.print_answer(ans, 2)
 if not DEBUG:
-  input("Submit part 2 ? (Ctrl-c to cancel)")
+  yn = input("Submit part 2 ? ('n' or Ctrl-c to cancel) ")
+  if yn.lower() == 'n':
+    sys.exit(0)
   aoc.submit_answer(ans, 2, DAY, YEAR)
