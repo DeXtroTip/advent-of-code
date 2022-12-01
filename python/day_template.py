@@ -13,13 +13,15 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 
 def parse_line(line):
-  tokens = [t for t in line.split(',')]
-
-  pattern = '{}-{}\n'
-  # tokens = parse.search(parse_pattern, line).fixed
-
-  # return tokens
   return line
+
+  tokens = [t for t in line.split(' ')]
+  return tokens
+
+  pattern = '{} {:d}'
+  tokens = parse.search(pattern, line).fixed
+
+  return tokens
 
 
 try:
@@ -36,7 +38,7 @@ except:
 finally:
   if lines is not None:
     plines = [parse_line(line) for line in lines]
-    #plines = [int(n) for n in plines]
+    # plines = [int(n) for n in plines]
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
@@ -49,13 +51,18 @@ fin = aoc.get_input(DAY, example=DEBUG)
 
 ### input handle
 
-pp(lines)
+if DEBUG:
+  # print_dgrid(dg)
+  pp(plines)
+  pass
 
 ### part 1
 
+for line in plines:
+  pass
+
 ans = 0
 
-ans = ans
 aoc.print_answer(ans, 1)
 if not DEBUG:
   yn = input("Submit part 1 ? ('n' or Ctrl-c to cancel) ")
@@ -65,9 +72,11 @@ if not DEBUG:
 
 ### part 2
 
+for line in plines:
+  pass
+
 ans = 0
 
-ans = ans
 aoc.print_answer(ans, 2)
 if not DEBUG:
   yn = input("Submit part 2 ? ('n' or Ctrl-c to cancel) ")
