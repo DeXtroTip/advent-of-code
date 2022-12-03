@@ -111,6 +111,15 @@ def element_diff(p1, p2):
   return tuple(c2 - c1 for c1, c2 in zip(p1, p2))
 
 
+def collections_intersect(*args):
+  if not args:
+    return set()
+  s = args[0] if isinstance(args[0], set) else set(args[0])
+  for el in args[1:]:
+    s = s.intersection(el)
+  return s
+
+
 def manhattan_dis(p1, p2):
   return sum(abs(c2 - c1) for c1, c2 in zip(p1, p2))
 
