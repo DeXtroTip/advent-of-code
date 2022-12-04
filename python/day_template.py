@@ -39,6 +39,7 @@ finally:
   if lines is not None:
     plines = [parse_line(line) for line in lines]
     # plines = [int(n) for n in plines]
+    line = plines[0]
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
@@ -58,28 +59,36 @@ if DEBUG:
 
 ### part 1
 
-for line in plines:
+s = set()
+d = {}
+l = []
+
+for i, line in enumerate(plines):
+  if not line:
+    continue
+
+  for j, col in enumerate(plines[i]):
+    pass
+
   pass
 
 ans = 0
-
-aoc.print_answer(ans, 1)
-if not DEBUG:
-  yn = input("Submit part 1 ? ('n' or Ctrl-c to cancel) ")
-  if yn.lower() == 'n':
-    sys.exit(0)
-  aoc.submit_answer(ans, 1, DAY, YEAR)
+aoc.submit_handler(ans, part=1, day=DAY, year=YEAR, is_debug=DEBUG)
 
 ### part 2
 
-for line in plines:
+s = set()
+d = {}
+l = []
+
+for i, line in enumerate(plines):
+  if not line:
+    continue
+
+  for j, col in enumerate(plines[i]):
+    pass
+
   pass
 
 ans = 0
-
-aoc.print_answer(ans, 2)
-if not DEBUG:
-  yn = input("Submit part 2 ? ('n' or Ctrl-c to cancel) ")
-  if yn.lower() == 'n':
-    sys.exit(0)
-  aoc.submit_answer(ans, 2, DAY, YEAR)
+aoc.submit_handler(ans, part=2, day=DAY, year=YEAR, is_debug=DEBUG)

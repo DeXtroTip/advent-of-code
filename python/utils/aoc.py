@@ -38,3 +38,12 @@ def write_example(day, fname=None):
 def print_answer(ans, part, get_timer=True):
   timer_str = f"(Took: {timer.lap():05f} s)   " if get_timer else ""
   print(f"{timer_str}Part {part}: {ans}")  # noqa: T201
+
+
+def submit_handler(ans, part, day=None, year=None, get_timer=True, is_debug=False):
+  print_answer(ans, part, get_timer=get_timer)
+  if not is_debug:
+    yn = input(f"Submit part {part} ? ('n' or Ctrl-c to cancel) ")
+    if yn.lower() == 'n':
+      sys.exit(0)
+    submit_answer(ans, part, day, year)
