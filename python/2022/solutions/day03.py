@@ -1,8 +1,6 @@
-# flake8: noqa
-
-import sys
-
-from utils.all import *
+from utils import aoc
+from utils.algorithms import collections_intersect
+from utils.helpers import get_lines
 
 YEAR, DAY = 2022, 3
 
