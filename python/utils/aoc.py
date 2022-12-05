@@ -40,10 +40,13 @@ def print_answer(ans, part, get_timer=True):
   print(f"{timer_str}Part {part}: {ans}")  # noqa: T201
 
 
-def submit_handler(ans, part, day=None, year=None, get_timer=True, is_debug=False):
+def submit_handler(ans, part, day=None, year=None, get_timer=True, is_debug=False, skip_confirmation=False):
   print_answer(ans, part, get_timer=get_timer)
   if not is_debug:
-    yn = input(f"Submit part {part} ? ('n' or Ctrl-c to cancel) ")
-    if yn.lower() == 'n':
-      sys.exit(0)
+    if not skip_confirmation:
+      yn = input(f"Submit part {part} ? ('n' or Ctrl-c to cancel) ")
+      if yn.lower() == 'n':
+        sys.exit(0)
     submit_answer(ans, part, day, year)
+    # Reset timer to not count with submission time
+    timer.lap()
