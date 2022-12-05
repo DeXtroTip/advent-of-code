@@ -39,7 +39,7 @@ finally:
   if lines is not None:
     plines = [parse_line(line) for line in lines]
     # plines = [int(n) for n in plines]
-    line = plines[0]
+    line = plines[0] if plines else None
 
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
