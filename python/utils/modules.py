@@ -9,7 +9,7 @@ from collections import Counter, defaultdict, deque, namedtuple
 from dataclasses import dataclass
 from functools import lru_cache, partial, reduce
 from importlib import find_loader
-from itertools import combinations, count, filterfalse, permutations, product
+from itertools import (combinations, count, filterfalse, islice, permutations, product)
 from pprint import pp
 
 from .math_override import *
