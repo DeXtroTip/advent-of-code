@@ -36,6 +36,39 @@ dgrid_neighbors8_values = dgrid_neighbors_gen_values(
   ((-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)))
 
 
+def dgrid_elements_direction_gen(delta):
+
+  def f(dg, coord):
+    while True:
+      coord = element_sum(coord, delta)
+      if coord in dg:
+        yield coord
+      else:
+        break
+
+  return f
+
+
+def dgrid_elements_direction_gen_values(delta):
+
+  def f(dg, coord):
+    for element in dgrid_elements_direction_gen(delta)(dg, coord):
+      yield dg[element]
+
+  return f
+
+
+dgrid_elements_left = dgrid_elements_direction_gen((-1, 0))
+dgrid_elements_right = dgrid_elements_direction_gen((1, 0))
+dgrid_elements_up = dgrid_elements_direction_gen((0, -1))
+dgrid_elements_down = dgrid_elements_direction_gen((0, 1))
+
+dgrid_elements_left_values = dgrid_elements_direction_gen_values((-1, 0))
+dgrid_elements_right_values = dgrid_elements_direction_gen_values((1, 0))
+dgrid_elements_up_values = dgrid_elements_direction_gen_values((0, -1))
+dgrid_elements_down_values = dgrid_elements_direction_gen_values((0, 1))
+
+
 def dgrid_coord_ranges(dg):
   if not dg:
     return ()
