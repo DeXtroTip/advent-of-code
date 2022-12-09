@@ -51,7 +51,7 @@ def graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4):
   return g
 
 
-def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True):
+def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True, add_end_break=True):
   if not dg:
     return
 
@@ -67,3 +67,5 @@ def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True):
       val = dg.get((x, y), default_val)
       line += str(mapping.get(val, val) if mapping is not None else val)
     print(line)  # noqa: T201
+  if add_end_break:
+    print()
