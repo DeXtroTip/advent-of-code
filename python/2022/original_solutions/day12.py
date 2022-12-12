@@ -87,7 +87,7 @@ for p, w in dg.items():
     if np not in dg:
       continue
     nw = dg[np]
-    if w >= nw or nw - w == 1:
+    if nw - w <= 1:
       # pp((p, np, w, nw))
       G.add_edge(p, np)
 

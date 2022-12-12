@@ -39,16 +39,40 @@ def get_dgrid(f, cast=None, start=(0, 0), y_start_at_top=True, strip=True):
   return dg
 
 
-def graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4):
-
+def graph_from_dgrid(
+  dg,
+  weighted=True,
+  neighbors=dgrid_neighbors4,
+  weight_calc=lambda sw, tw: tw,
+  edge_filter=lambda s, t, sw, tw: True,
+  use_nx_digraph=False,
+):
   g = defaultdict(list)
   for pos in dg:
     for adj in neighbors(dg, pos, only_existing=True):
+      if not edge_filter(pos, adj, dg[pos], dg[adj]):
+        continue
       if weighted:
-        g[pos].append((adj, dg[adj]))
+        g[pos].append((adj, weight_calc(dg[pos], dg[adj])))
       else:
         g[pos].append(adj)
+  if use_nx_digraph:
+    return graph_to_nx_digraph(g, weighted=weighted)
   return g
+
+
+def graph_to_nx_digraph(g, weighted=True):
+  import networkx as nx
+
+  di_graph = nx.DiGraph()
+  for start, end_nodes in g.items():
+    for end in end_nodes:
+      if weighted:
+        end_node, weight = end
+        di_graph.add_edge(start, end_node, weight=weight)
+      else:
+        di_graph.add_edge(start, end)
+  return di_graph
 
 
 def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True, add_end_break=True):
@@ -68,4 +92,4 @@ def print_dgrid(dg, default_val='.', mapping=None, y_start_at_top=True, add_end_
       line += str(mapping.get(val, val) if mapping is not None else val)
     print(line)  # noqa: T201
   if add_end_break:
-    print()
+    print()  # noqa: T201
