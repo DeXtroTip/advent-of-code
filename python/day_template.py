@@ -44,7 +44,15 @@ finally:
 try:
   fin = aoc.get_input(DAY, example=DEBUG)
   dg = get_dgrid(fin, cast=None, y_start_at_top=True, strip=True)
-  g = graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4)
+  is_weighted = True
+  g = graph_from_dgrid(
+    dg,
+    weighted=is_weighted,
+    neighbors=dgrid_neighbors4,
+    weight_calc=lambda sw, tw: tw,
+    edge_filter=lambda s, t, sw, tw: True,
+  )
+  G = graph_to_nx_digraph(g, weighted=is_weighted)
 except:
   pass
 
