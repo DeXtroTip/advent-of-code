@@ -43,7 +43,7 @@ def graph_from_dgrid(dg, weighted=True, neighbors=dgrid_neighbors4):
 
   g = defaultdict(list)
   for pos in dg:
-    for adj in neighbors(dg, pos):
+    for adj in neighbors(dg, pos, only_existing=True):
       if weighted:
         g[pos].append((adj, dg[adj]))
       else:
