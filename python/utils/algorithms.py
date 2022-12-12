@@ -80,7 +80,7 @@ def dgrid_coord_ranges(dg):
   return tuple(mins), tuple(maxs)
 
 
-def dijkstra_path(g, start, end=None):
+def dijkstra_path(g, start, end=None, weighted=True):
   costs = defaultdict(lambda: math.inf)
   costs[start] = 0
 
@@ -96,7 +96,11 @@ def dijkstra_path(g, start, end=None):
     if curr_node == end:
       return paths[end]
 
-    for adjacent, cost in g[curr_node]:
+    for adjacent in g[curr_node]:
+      if weighted:
+        adjacent, cost = adjacent
+      else:
+        adjacent, cost = adjacent, 1
       if adjacent not in visited:
         new_cost = curr_cost + cost
         if new_cost < costs[adjacent]:
@@ -107,7 +111,7 @@ def dijkstra_path(g, start, end=None):
   return paths[end] if end else paths
 
 
-def dijkstra_cost(g, start, end=None):
+def dijkstra_cost(g, start, end=None, weighted=True):
   costs = defaultdict(lambda: math.inf)
   costs[start] = 0
 
@@ -122,7 +126,11 @@ def dijkstra_cost(g, start, end=None):
     if curr_node == end:
       return costs[end]
 
-    for adjacent, cost in g[curr_node]:
+    for adjacent in g[curr_node]:
+      if weighted:
+        adjacent, cost = adjacent
+      else:
+        adjacent, cost = adjacent, 1
       if adjacent not in visited:
         new_cost = curr_cost + cost
         if new_cost < costs[adjacent]:
