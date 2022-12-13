@@ -1,6 +1,8 @@
 # flake8: noqa
 
+import functools
 import heapq
+import itertools
 import math
 import re
 import string
