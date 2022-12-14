@@ -1,6 +1,8 @@
 import heapq
 import math
-from collections import defaultdict
+from collections import defaultdict, deque
+
+from .structures import DefaultDict
 
 
 def dgrid_neighbors_gen(deltas):
@@ -80,64 +82,184 @@ def dgrid_coord_ranges(dg):
   return tuple(mins), tuple(maxs)
 
 
-def dijkstra_path(g, start, end=None, weighted=True):
+def bfs(g, start, ends=None):
+  if start in ends:
+    return 0
+
+  queue = deque(((0, start), ))
+  seen = {start}
+  while queue:
+    curr_cost, curr_node = queue.popleft()
+    for adjacent in g[curr_node]:
+      if adjacent in seen:
+        continue
+      if adjacent in ends:
+        return curr_cost + 1
+      seen.add(adjacent)
+      queue.append((curr_cost + 1, adjacent))
+  return -1
+
+
+def bfs_path(g, start, ends=None):
+  if start in ends:
+    return (start, )
+
+  queue = deque(((start, (start, )), ))
+  seen = {start}
+
+  if ends is None:
+    paths = {start: (start, )}
+
+  while queue:
+    curr_node, curr_path = queue.popleft()
+    for adjacent in g[curr_node]:
+      if adjacent in seen:
+        continue
+      if adjacent in ends:
+        return curr_path + (adjacent, )
+      seen.add(adjacent)
+      queue.append((adjacent, curr_path + (adjacent, )))
+      if ends is None:
+        paths[adjacent] = curr_path + (adjacent, )
+  return paths if ends is None else ()
+
+
+def astar_cost(g, start, end=None, weighted=True, heuristic=lambda p1, p2: manhattan_dis(p1, p2)):
+  if start in end:
+    return 0
+
+  heuristics = DefaultDict(lambda x: manhattan_dis(x, end))
   costs = defaultdict(lambda: math.inf)
   costs[start] = 0
-
-  paths = {start: (start, )}
   visited = set()
-
   queue = []
-  heapq.heappush(queue, (0, start, (start, )))
+  heapq.heappush(queue, (0, start))
+
   while queue:
-    curr_cost, curr_node, curr_path = heapq.heappop(queue)
-    visited.add(curr_node)
+    _, curr_node = heapq.heappop(queue)
+    curr_cost = costs[curr_node]
 
     if curr_node == end:
-      return paths[end]
+      return curr_cost
+    visited.add(curr_node)
 
     for adjacent in g[curr_node]:
-      if weighted:
-        adjacent, cost = adjacent
-      else:
-        adjacent, cost = adjacent, 1
-      if adjacent not in visited:
-        new_cost = curr_cost + cost
-        if new_cost < costs[adjacent]:
-          costs[adjacent] = new_cost
-          paths[adjacent] = curr_path + (adjacent, )
-          heapq.heappush(queue, (new_cost, adjacent, paths[adjacent]))
+      adjacent, cost = adjacent if weighted else adjacent, 1
+      new_cost = curr_cost + cost
+      if adjacent not in visited and new_cost < costs[adjacent]:
+        estimated_cost = new_cost + heuristics[adjacent]
+        costs[adjacent] = new_cost
+        heapq.heappush(queue, (estimated_cost, adjacent))
 
-  return paths[end] if end else paths
+  return costs if end is None else math.inf
+
+
+def astar_path(g, start, end=None, weighted=True, heuristic=lambda p1, p2: manhattan_dis(p1, p2)):
+  if start == end:
+    return (start, )
+
+  heuristics = DefaultDict(lambda x: manhattan_dis(x, end))
+  costs = defaultdict(lambda: math.inf)
+  costs[start] = 0
+  visited = set()
+  queue = []
+  heapq.heappush(queue, (0, start))
+
+  if end is None:
+    paths = {start: (start, )}
+
+  while queue:
+    _, curr_node = heapq.heappop(queue)
+    curr_cost = costs[curr_node]
+    curr_path = paths[curr_node]
+
+    if curr_node == end:
+      return curr_path
+    visited.add(curr_node)
+
+    for adjacent in g[curr_node]:
+      adjacent, cost = adjacent if weighted else adjacent, 1
+      new_cost = curr_cost + cost
+      if adjacent not in visited and new_cost < costs[adjacent]:
+        estimated_cost = new_cost + heuristics[adjacent]
+        costs[adjacent] = new_cost
+        heapq.heappush(queue, (estimated_cost, adjacent))
+        if end is None:
+          paths[adjacent] = curr_path + (adjacent, )
+
+  return paths if end is None else ()
+
+
+def dijkstra_path(g, start, end=None, weighted=True):
+  if start == end:
+    return (start, )
+
+  costs = defaultdict(lambda: math.inf)
+  costs[start] = 0
+  visited = set()
+  queue = []
+  heapq.heappush(queue, (0, start))
+
+  if end is None:
+    paths = {start: (start, )}
+
+  while queue:
+    _, curr_node = heapq.heappop(queue)
+    curr_cost = costs[curr_node]
+    curr_path = paths[curr_node]
+
+    if curr_node == end:
+      return curr_path
+    visited.add(curr_node)
+
+    for adjacent in g[curr_node]:
+      adjacent, cost = adjacent if weighted else adjacent, 1
+      new_cost = curr_cost + cost
+      if adjacent not in visited and new_cost < costs[adjacent]:
+        costs[adjacent] = new_cost
+        heapq.heappush(queue, (new_cost, adjacent))
+        if end is None:
+          paths[adjacent] = curr_path + (adjacent, )
 
 
 def dijkstra_cost(g, start, end=None, weighted=True):
+  if start in end:
+    return 0
+
   costs = defaultdict(lambda: math.inf)
   costs[start] = 0
-
   visited = set()
-
   queue = []
   heapq.heappush(queue, (0, start))
+
   while queue:
-    curr_cost, curr_node = heapq.heappop(queue)
-    visited.add(curr_node)
+    _, curr_node = heapq.heappop(queue)
+    curr_cost = costs[curr_node]
 
     if curr_node == end:
-      return costs[end]
+      return curr_cost
+    visited.add(curr_node)
 
     for adjacent in g[curr_node]:
+      adjacent, cost = adjacent if weighted else adjacent, 1
+      new_cost = curr_cost + cost
+      if adjacent not in visited and new_cost < costs[adjacent]:
+        costs[adjacent] = new_cost
+        heapq.heappush(queue, (new_cost, adjacent))
+
+  return costs if end is None else math.inf
+
+
+def invert_graph(g, weighted=True):
+  new_g = defaultdict(list)
+  for node, adjacents in g.items():
+    for adjacent in adjacents:
       if weighted:
         adjacent, cost = adjacent
+        new_g[adjacent].append((node, cost))
       else:
-        adjacent, cost = adjacent, 1
-      if adjacent not in visited:
-        new_cost = curr_cost + cost
-        if new_cost < costs[adjacent]:
-          costs[adjacent] = new_cost
-          heapq.heappush(queue, (new_cost, adjacent))
-
-  return costs[end] if end else costs
+        new_g[adjacent].append(node)
+  return new_g
 
 
 def element_sum(*args):
