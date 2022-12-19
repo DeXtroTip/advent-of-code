@@ -252,6 +252,14 @@ python-versions = ">=3.7"
 flake8 = ">=3.9.1"
 
 [[package]]
+name = "pulp"
+version = "2.7.0"
+description = "PuLP is an LP modeler written in python. PuLP can generate MPS or LP files and call GLPK, COIN CLP/CBC, CPLEX, and GUROBI to solve linear problems."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pycodestyle"
 version = "2.10.0"
 description = "Python style guide checker"
@@ -390,7 +398,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.11"
-content-hash = "b0898b6545c5691de9f3ccf8d4566a0ddd0e90fd47371a6d61ee34eb4a0f3884"
+content-hash = "fd97b30d555842f7cda4bf4438462758e97072caa0752b68a12995a823a8b593"
 
 [metadata.files]
 advent-of-code-data = [
@@ -504,6 +512,10 @@ pebble = [
 pep8-naming = [
     {file = "pep8-naming-0.13.2.tar.gz", hash = "sha256:93eef62f525fd12a6f8c98f4dcc17fa70baae2f37fa1f73bec00e3e44392fa48"},
     {file = "pep8_naming-0.13.2-py3-none-any.whl", hash = "sha256:59e29e55c478db69cffbe14ab24b5bd2cd615c0413edf790d47d3fb7ba9a4e23"},
+]
+pulp = [
+    {file = "PuLP-2.7.0-py3-none-any.whl", hash = "sha256:b6de42c929e80325bf44cc7a2997f02535440800c376b9eb8cb7b4670ed53769"},
+    {file = "PuLP-2.7.0.tar.gz", hash = "sha256:e73ee6b32d639c9b8cf4b4aded334ba158be5f8313544e056f796ace0a10ae63"},
 ]
 pycodestyle = [
     {file = "pycodestyle-2.10.0-py2.py3-none-any.whl", hash = "sha256:8a4eaf0d0495c7395bdab3589ac2db602797d76207242c17d470186815706610"},

@@ -19,6 +19,7 @@ networkx = "^2.8.8"
 z3-solver = "^4.11.2.0"
 parse = "^1.19.0"
 numpy = "^1.23.5"
+pulp = "^2.7.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
